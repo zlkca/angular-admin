@@ -1,0 +1,49 @@
+<div class="container product-detail">
+<!--         <div class="row">
+            <div class="label-sm">n_subscription</div>
+            <input name="n_subscription" [(ngModel)]="product.n_subscription"/>
+            <img style="width:100px;height:100px;" [src]="product.logo"/>
+        </div> -->
+<!--         <div class="row">
+            <div>rating</div>
+            <input name="rating" [(ngModel)]="product.rating"/>
+        </div> -->
+        <div class="row">
+            <div class="left-side">
+                <img src={{product.logo}} />
+            </div>
+            <div class="right-side">
+                <div class="title">{{product.title}}</div>
+                <p class="row description">
+                    <span class="title-md">{{'INTRODUCTION'|translate}}:&nbsp;</span>
+                    {{product.description}}
+                </p>
+                  
+                <div class="row category">
+                    <span class="title-md">{{'CATEGORY'|translate}}:&nbsp;</span>{{categoryName}}
+                </div>
+                <div class="row date">
+                    <span class="title-md">{{'CREATED'|translate}}:&nbsp;</span>{{product.created | date: 'dd/MM/yyyy'}}
+                </div>
+                <div class="row date">
+                    <span class="title-md">{{'UPDATED'|translate}}:&nbsp;</span>{{product.updated | date: 'dd/MM/yyyy'}}
+                </div>
+            </div>
+        </div>
+        <div class="row images-row">
+            <div *ngFor="let qr of product.qrs;let i=index;">
+                <div class="image-block" *ngIf="qr.image.data!=emptyImage && qr.image.data!=product.logo">
+                    <img [src]="qr.image.data" />
+                    <div class="label-sm">{{qr.title}}</div>
+                </div>
+            </div>
+        </div>
+<!--         <div class="row">
+            <div class="label-sm">user</div>
+            <input name="user" [(ngModel)]="product.user"/>
+        </div> -->
+<!--         <div class="row">
+            <div>created</div>
+            <input name="created" [(ngModel)]="product.created"/>
+        </div> -->
+</div>

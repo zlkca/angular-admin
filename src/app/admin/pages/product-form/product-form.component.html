@@ -1,0 +1,58 @@
+<div class="admin-product-form">
+    <div class="container">
+        <div class="title-md">{{'WECHAT_GROUP'|translate}}:</div>
+        
+        <form class="product-form">
+            <div class="row">
+                <div class="label-sm">{{'TITLE'|translate}}</div>
+                <input name="title" [(ngModel)]="product.title"/>
+            </div>
+            <div class="row">
+                <div class="label-sm">{{'DESCRIPTION'|translate}}</div>
+                <textarea name="description" [(ngModel)]="product.description"></textarea>
+            </div>
+    <!--         <div class="row">
+                <div class="label-sm">n_subscription</div>
+                <input name="n_subscription" [(ngModel)]="product.n_subscription"/>
+                <img style="width:100px;height:100px;" [src]="product.logo"/>
+            </div> -->
+    <!--         <div class="row">
+                <div>rating</div>
+                <input name="rating" [(ngModel)]="product.rating"/>
+            </div> -->
+<!--             <div class="row">
+                <div class="label-sm">{{'LOGO'|translate}}</div>
+                <input name="logo" type="file" (change)="onFileChange($event)" />
+                <img [src]="logo" />
+                <div class="canvas-frame">
+                    <canvas id="item-canvas" [style.width.px]="CANVAS_W" [style.marginTop.px]="FRAME_PADDING_H"></canvas>
+                </div>
+            </div> -->
+            <div class="row" *ngFor="let qr of product.qrs; let i=index">
+                <div class="label-sm">{{'PICTURE_TITLE'|translate}}</div>
+                <input name="title{{i}}" [value]="qr.title" />
+                <div class="label-sm">{{'PICTURE'|translate}}</div>
+                <input class="upload-input" name="image{{i}}" type="file" (change)="onImageChange($event, i)" />
+                <img [src]="qr.image.data" />
+                <div class="btn" (click)="onLoadImage(i)">{{'UPLOAD'|translate}}</div>
+                <div class="btn" (click)="onDeleteImage(i)">{{'DELETE'|translate}}</div>
+                <div class="label-sm">*Need to click the Save button to save the result</div>
+            </div>
+    <!--         <div class="row">
+                <div class="label-sm">user</div>
+                <input name="user" [(ngModel)]="product.user"/>
+            </div> -->
+            <div class="row">
+                <div class="label-sm">{{'CATEGORY'|translate}}</div>
+                <select name="category" [(ngModel)]="product.category.id">
+                    <option *ngFor="let cat of categoryList" [value]="cat.id">{{cat.name}}</option>
+                </select>
+            </div>
+    <!--         <div class="row">
+                <div>created</div>
+                <input name="created" [(ngModel)]="product.created"/>
+            </div> -->
+            <button (click)="save()">{{'SAVE'|translate}}</button>
+        </form>
+    </div>
+</div>
