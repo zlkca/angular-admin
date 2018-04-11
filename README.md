@@ -2,7 +2,7 @@
 
 This is a seed project of angular5 responsive website ( only have a front end for now ). The most significant advantage is it included a powerful admin side use to deliver to your customer. 
 
-I applied 
+I applied this project to a lot of real project, which works fine for me and hope this project will help you as well.
 
 ## Run server
 
