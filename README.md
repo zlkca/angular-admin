@@ -7,7 +7,7 @@ I applied
 ## Run server
 
 You need to provide a standard angular2 environments folder and files before build and run the server, The content should have the following structure.
-
+`
 export const environment = {
   production: true,
   API_URL: window.location.origin + "/api/", // depend on your backend api design
@@ -26,7 +26,7 @@ export const environment = {
     CLIENT_KEY:'your stripe client key (can be empty string here)'
   }
 };
-
+`
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
