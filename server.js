@@ -3,8 +3,9 @@ const express = require('express')
 const path = require('path')
 const app = express()
 
-const SERVER_NAME = 'angular-admin'
-const SERVER_PORT = 5006
+const fs = require('fs')
+const cfg = JSON.parse(fs.readFileSync('../orchid.cfg.json','utf8'));
+const APP_SERVER = cfg.APP_SERVER;
 
 // body-parser does not handle multipart bodies
 var bodyParser = require('body-parser');
@@ -19,11 +20,17 @@ app.use(bodyParser.json({ limit: '1mb' }));
 console.log(__dirname + '/dist');
 
 app.use(express.static(__dirname + '/dist'));
+
+// var Auth = require('./server/auth/view');
+// var auth = Auth(cfg);
+// app.post('/api/login', auth.login);
+// app.post('/api/token', auth.checkToken);
+
 app.get('*',function(req,res){
     res.sendFile(path.join(__dirname, '/dist/index.html'));
 });
 //app.listen(SERVER_PORT, () => console.log('Server setup'))
-app.set('port', process.env.PORT || SERVER_PORT)
+app.set('port', process.env.PORT || APP_SERVER.PORT)
 
 var server = http.createServer(app)
 server.listen(app.get('port'), function () {
