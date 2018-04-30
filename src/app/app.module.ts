@@ -8,11 +8,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 
-import { HeaderComponent } from './ui/header/header.component';
-import { FooterComponent } from './ui/footer/footer.component';
+import { HeaderComponent } from './shared/header/header.component';
+import { FooterComponent } from './shared/footer/footer.component';
 
-import { HomeComponent } from './pages/home/home.component';
-import { ProductComponent } from './pages/product/product.component';
+import { HomeComponent } from './main/home/home.component';
+import { ProductComponent } from './main/product/product.component';
 // import { ContactComponent } from './main/contact/contact.component';
 // import { LoginComponent } from './users/login/login.component';
 // import { SignupComponent } from './users/signup/signup.component';
@@ -21,7 +21,7 @@ import { ProductComponent } from './pages/product/product.component';
 // import { ProfileEditComponent } from './users/profile-edit/profile-edit.component';
 // import { ChangePasswordComponent } from './users/change-password/change-password.component';
 
-import { AdminLoginComponent } from './admin/pages/login/login.component';
+import { LoginComponent } from './account/login/login.component';
 
 import { ProductListComponent } from './commerce/product-list/product-list.component';
 
@@ -29,11 +29,10 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 
-import { PagesModule }    from './pages/pages.module';
-import { UiModule } from './ui/ui.module';
+import { MainModule }    from './main/main.module';
+import { SharedModule } from './shared/shared.module';
 import { CommerceModule } from './commerce/commerce.module';
-import { AdminModule } from './admin/admin.module';
-import { LayoutComponent } from './layout/layout.component';
+import { LayoutComponent } from './main/layout/layout.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
     return new TranslateHttpLoader(http, '../../assets/i18n/', '.json');
@@ -54,7 +53,7 @@ const appRoutes: Routes = [
   // { path: 'profile-edit', component:ProfileEditComponent },
   // { path: 'change-password', component:ChangePasswordComponent },
   // { path: 'admin', component:AdminDashboardComponent },
-  { path: 'admin/login', component:AdminLoginComponent },
+  { path: 'admin/login', component:LoginComponent },
 
   { path: '', component:LayoutComponent,
       children:[
@@ -80,17 +79,9 @@ const appRoutes: Routes = [
       // { enableTracing: true } // <-- debugging purposes only
     ),
     NgbModule.forRoot(),
-    TranslateModule.forRoot({
-        loader: {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient]
-        }
-    }),
-    UiModule,
+    SharedModule,
     CommerceModule,
-    PagesModule,
-    AdminModule
+    MainModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
   //providers: [MsgService],

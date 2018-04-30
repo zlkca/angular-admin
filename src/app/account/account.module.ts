@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
+import { LoginComponent } from './login/login.component';
 @NgModule({
    imports:[
       CommonModule,
@@ -11,6 +12,6 @@ import { HttpClientModule } from '@angular/common/http';
       HttpClientModule
    ],
    exports:[],
-   declarations:[]
+   declarations:[LoginComponent]
 })
 export class AccountModule { }

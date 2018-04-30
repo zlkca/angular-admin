@@ -21,12 +21,14 @@ describe('AuthService', () => {
   	// httpMock.verify();
   })
 
-  it('should be created', inject([AuthService, HttpTestingController], (service: AuthService, httpMock:HttpTestingController) => {
-  	let dummyLogin = { token:'a', data:{username:'z', email:'admin@gmail.com'}};
+  it('should login successful', inject([AuthService, HttpTestingController], (service: AuthService, httpMock:HttpTestingController) => {
+  	let dummyLogin = { token:'a', data:{username:'z', email:'admin@gmail.com', first_name:'a', last_name:'b'}};
 
-  	service.login('t1','p1').subscribe((r)=>{
-  		//expect(r).toBeTruthy();
-  		console.log(r);	
+  	service.login('z','p1').subscribe((r:any)=>{
+  		expect(r.username).toBe(dummyLogin.data.username);
+  		expect(r.email).toBe(dummyLogin.data.email);
+  		expect(r.first_name).toBe(dummyLogin.data.first_name);
+  		expect(r.last_name).toBe(dummyLogin.data.last_name);	
   	})
     
     const req = httpMock.expectOne({method:'POST', url:'http://localhost:8000/api/login'});
