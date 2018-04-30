@@ -10,7 +10,7 @@ import { CategoryFormComponent } from './category-form/category-form.component';
 import { ProductListComponent } from './product-list/product-list.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 
-import { UiService } from '../ui/ui.service';
+import { SharedService } from '../shared/shared.service';
 
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
@@ -23,6 +23,8 @@ export function HttpLoaderFactory(http: HttpClient) {
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './commerce.service';
+import { ManufactoryListComponent } from './manufactory-list/manufactory-list.component';
+import { ManufactoryFormComponent } from './manufactory-form/manufactory-form.component';
 
 
 
@@ -41,13 +43,13 @@ import { TokenInterceptor } from './commerce.service';
     }),
       //UiModule
    ],
-   providers: [UiService,
+   providers: [SharedService,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
     }],
    exports:[CategoryListComponent,CategoryFormComponent,ProductListComponent,ProductDetailComponent],
-   declarations:[CategoryListComponent,CategoryFormComponent,ProductListComponent,ProductDetailComponent]
+   declarations:[CategoryListComponent,CategoryFormComponent,ProductListComponent,ProductDetailComponent, ManufactoryListComponent, ManufactoryFormComponent]
 })
 export class CommerceModule { }

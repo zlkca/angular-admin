@@ -15,18 +15,18 @@
             <div class="right-side">
                 <div class="title">{{product.title}}</div>
                 <p class="row description">
-                    <span class="title-md">{{'INTRODUCTION'|translate}}:&nbsp;</span>
+                    <span class="title-md">Description</span>
                     {{product.description}}
                 </p>
                   
                 <div class="row category">
-                    <span class="title-md">{{'CATEGORY'|translate}}:&nbsp;</span>{{categoryName}}
+                    <span class="title-md">Category</span>{{categoryName}}
                 </div>
                 <div class="row date">
-                    <span class="title-md">{{'CREATED'|translate}}:&nbsp;</span>{{product.created | date: 'dd/MM/yyyy'}}
+                    <span class="title-md">Created</span>{{product.created | date: 'dd/MM/yyyy'}}
                 </div>
                 <div class="row date">
-                    <span class="title-md">{{'UPDATED'|translate}}:&nbsp;</span>{{product.updated | date: 'dd/MM/yyyy'}}
+                    <span class="title-md">Updated</span>{{product.updated | date: 'dd/MM/yyyy'}}
                 </div>
             </div>
         </div>
