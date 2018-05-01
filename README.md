@@ -33,8 +33,7 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 ## Code scaffolding
 
-The code can be divide to two parts, one is admin module which is in /admin folder, the other are the main website component.
-The layout component use to organize layout of the page, ui module used to define the ui component like header, footer, pages folder keep the page that used to navigate in layout.
+The layout component use to organize layout of the page; shared module used to define the shared component like header, footer, pages folder keep the page that used to navigate in layout; The main module used to define the pages.
 
 
 ## Build
