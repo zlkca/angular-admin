@@ -1,8 +1,8 @@
 # angular-admin
 
-This is a seed project of angular5 responsive website ( only have a front end for now ). The most significant advantage is it included a powerful admin side use to deliver to your customer. 
+This is a seed project of angular5 responsive website ( front end only ). The project can be an admin website for your project, to replace for example, django admin.  
 
-I applied this project to a lot of real project, which works fine for me and hope this project will help you as well.
+Hope this project will help you as well.
 
 ## Run server
 
@@ -43,7 +43,9 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Running unit tests
 
-N/A
+Most of the components, services were covered by unit test.
+
+Run `ng test` to test the project.
 
 ## Running end-to-end tests
 
