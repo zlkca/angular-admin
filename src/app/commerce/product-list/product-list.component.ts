@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommerceService } from '../../commerce/commerce.service';
 import { Product } from '../../commerce/commerce';
-import { UiService } from '../../ui/ui.service';
+import { SharedService } from '../../shared/shared.service';
 import { TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../environments/environment';
@@ -11,7 +11,6 @@ import { environment } from '../../../environments/environment';
 const FRAME_WIDTH:number = 160;
 const FRAME_HEIGHT:number = 160;
 const NORMAL_HEIGHT:number = 140;
-
 const TEXTAREA_HEIGHT:number = 48;
 const MOBILE_WIDTH:number = 767;
 
@@ -28,11 +27,11 @@ export class ProductListComponent implements OnInit {
     item:any;
     frame:any;
 
-    constructor(private translate:TranslateService, private uiServ:UiService, private router:Router, 
+    constructor(private translate:TranslateService, private sharedServ:SharedService, private router:Router, 
         private commerceServ:CommerceService){
         let self = this;
         
-        this.uiServ.getMsg().subscribe(msg => {
+        this.sharedServ.getMsg().subscribe(msg => {
             if('OnSearch' === msg.name){
                 if(msg.query){
                     self.doSearch(msg.query);

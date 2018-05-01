@@ -10,7 +10,7 @@ import { User } from './account';
 export class AuthService {
 
     private API_URL = environment.API_URL;
-    private APP = environment.APP;
+    public APP = environment.APP;
 
     constructor(private http: HttpClient) {}
 
@@ -31,17 +31,13 @@ export class AuthService {
         });
     }
 
-    setLoginStorage(user: User): void {
-        localStorage.setItem('user-' + this.APP, JSON.stringify(user));
-    };
-
-    setLogoutStorage(): void {
-        localStorage.removeItem('user-' + this.APP);
-    };
+    logout(){
+       localStorage.removeItem('token-' + this.APP); 
+    }
 
     hasLoggedIn(){
-        let v = localStorage.getItem('user-' + this.APP);
-        return v ? true : false;
+        let token = localStorage.getItem('token-' + this.APP);
+        return this.checkToken(token);
     }
 
     checkToken(token: string): Observable<any> {

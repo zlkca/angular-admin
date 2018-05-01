@@ -25,18 +25,12 @@ import { LoginComponent } from './account/login/login.component';
 
 import { ProductListComponent } from './commerce/product-list/product-list.component';
 
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-
-
+import { AccountModule } from './account/account.module';
 import { MainModule }    from './main/main.module';
 import { SharedModule } from './shared/shared.module';
 import { CommerceModule } from './commerce/commerce.module';
 import { LayoutComponent } from './main/layout/layout.component';
 
-export function HttpLoaderFactory(http: HttpClient) {
-    return new TranslateHttpLoader(http, '../../assets/i18n/', '.json');
-}
 
 //import { MsgService } from './main/shared/main.service';
 
@@ -81,6 +75,7 @@ const appRoutes: Routes = [
     NgbModule.forRoot(),
     SharedModule,
     CommerceModule,
+    AccountModule,
     MainModule
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],

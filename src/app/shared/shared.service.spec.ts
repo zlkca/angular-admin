@@ -12,4 +12,13 @@ describe('SharedService', () => {
   it('should be created', inject([SharedService], (service: SharedService) => {
     expect(service).toBeTruthy();
   }));
+
+  it('should be created', inject([SharedService], (service: SharedService) => {
+  	service.emitMsg('Hello');
+  	service.getMsg().subscribe(r=>{
+  		expect(r).toBeTruthy('Hello');
+  	})
+    
+  }));
+
 });
