@@ -56,4 +56,21 @@ export class AuthService {
         });
     }
 
+    signup(username: string, email: string, password: string): Observable<User> {
+        // note: http.post return { token:'x', data: user data }
+        const url = this.API_URL + 'signup';
+        let self = this;
+        let body = {"username": username, "email": email, "password": password};
+        let headers = new HttpHeaders().set('Content-Type', "application/json");
+        return this.http.post(url, body, {'headers': headers}).map((res:any) => {
+            localStorage.setItem('token-' + this.APP, res.token);
+            if (res.data) {
+                return new User(res.data);
+            } else {
+                return null;
+            }
+        }).catch((error:any)=>{
+            return Observable.throw(error.message || error);
+        });
+    }
 }

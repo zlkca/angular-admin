@@ -22,7 +22,7 @@ import { ProductComponent } from './main/product/product.component';
 // import { ChangePasswordComponent } from './users/change-password/change-password.component';
 
 import { LoginComponent } from './account/login/login.component';
-
+import { SignupComponent } from './account/signup/signup.component';
 import { ProductListComponent } from './commerce/product-list/product-list.component';
 
 import { AccountModule } from './account/account.module';
@@ -48,7 +48,7 @@ const appRoutes: Routes = [
   // { path: 'change-password', component:ChangePasswordComponent },
   // { path: 'admin', component:AdminDashboardComponent },
   { path: 'admin/login', component:LoginComponent },
-
+  { path: 'admin/signup', component:SignupComponent },
   { path: '', component:LayoutComponent,
       children:[
         { path: 'products', component:ProductListComponent },
@@ -61,8 +61,7 @@ const appRoutes: Routes = [
 
 @NgModule({
   declarations: [
-    AppComponent,
-    LayoutComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
