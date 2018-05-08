@@ -73,4 +73,28 @@ export class AuthService {
             return Observable.throw(error.message || error);
         });
     }
+
+
+    forgetPassword(email: string) {
+        const url = this.API_URL + 'forget-password';
+        let headers = new HttpHeaders().set('Content-Type', "application/json");
+        let options = {headers: headers};
+        return this.http.post(url, {"email": email}, options)
+          .map(rsp => {
+            
+          })
+          .catch(err => err);
+    }
+
+
+    changePassword(userId: any, oldPassword: any, newPassword: any) {
+        const url = this.API_URL + 'change-password';
+        let headers = new HttpHeaders().set('Content-Type', "application/json");
+        let options = {headers: headers};
+        return this.http.post(url, {"user_id": userId, "old_password": oldPassword, "new_password": newPassword}, options)
+          .map(function(rsp: any) {
+            // return rsp.errors;
+          })
+          .catch(err => err);
+    }
 }

@@ -5,6 +5,9 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import { ForgetPasswordComponent } from './forget-password/forget-password.component';
+import { ProfileFormComponent } from './profile-form/profile-form.component';
 @NgModule({
    imports:[
       CommonModule,
@@ -13,6 +16,6 @@ import { SignupComponent } from './signup/signup.component';
       HttpClientModule
    ],
    exports:[],
-   declarations:[LoginComponent, SignupComponent]
+   declarations:[LoginComponent, SignupComponent, ChangePasswordComponent, ForgetPasswordComponent, ProfileFormComponent]
 })
 export class AccountModule { }
