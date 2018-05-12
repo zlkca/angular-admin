@@ -13,6 +13,11 @@ import { ManufactoryListComponent } from '../commerce/manufactory-list/manufacto
 import { ManufactoryFormComponent } from '../commerce/manufactory-form/manufactory-form.component';
 import { CategoryListComponent } from '../commerce/category-list/category-list.component';
 import { CategoryFormComponent } from '../commerce/category-form/category-form.component';
+import { ColorListComponent } from '../commerce/color-list/color-list.component';
+import { ColorFormComponent } from '../commerce/color-form/color-form.component';
+
+import { ProductListComponent } from '../commerce/product-list/product-list.component';
+import { ProductFormComponent } from '../commerce/product-form/product-form.component';
 import { LoginComponent } from '../account/login/login.component';
 
 const adminRoutes:Routes = [
@@ -28,9 +33,12 @@ const adminRoutes:Routes = [
       { path: 'categories', component:CategoryListComponent },
       { path: 'category/:id', component:CategoryFormComponent },
       { path: 'category', component:CategoryFormComponent },
-    //   { path: 'courses', component:AdminCourseListComponent},
-    //   { path: 'course/:id', component:AdminCourseFormComponent },
-    //   { path: 'course', component:AdminCourseFormComponent},
+      { path: 'colors', component:ColorListComponent },
+      { path: 'color/:id', component:ColorFormComponent },
+      { path: 'color', component:ColorFormComponent },
+      { path: 'products', component:ProductListComponent},
+      { path: 'product/:id', component:ProductFormComponent },
+      { path: 'product', component:ProductFormComponent},
     //   { path: 'posts', component:AdminPostListComponent},
     //   { path: 'post/:id', component:AdminPostFormComponent },
     //   { path: 'post', component:AdminPostFormComponent},

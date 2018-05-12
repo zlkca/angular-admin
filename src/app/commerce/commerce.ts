@@ -26,20 +26,16 @@ export class Category{
   }
 }
 
-export class Wechat{
+export class Color{
   public id:string;
-  public title:string;
+  public name:string;
   public description:string;
-  public logo:any = { 'data':'', 'file':'' };
-  public created:string;
   constructor(o?:any){
-        if(o){
-            this.id = o.id;
-            this.title = o.title;
-            this.description = o.description;
-            this.logo = o.logo;
-            this.created = o.created;
-      }
+      if(o){
+          this.id = o.id;
+          this.name = o.name;
+          this.description = o.description;
+    }
   }
 }
 
@@ -84,14 +80,19 @@ export class Product{
   public id:string;
   public title:string;
   public description:string;
-  public n_subscription:number;
-  public rating:number;
-  public logo:string;
-  public qrs:QR[] = [new QR(), new QR(), new QR(), new QR()];
+  year:string;
+  status:string;
+  currency:string;
+  dimension:string;
+  price:number;
+
+  //public qrs:QR[] = [new QR(), new QR(), new QR(), new QR()];
   // public qrs:any = [{ 'title':'', 'data':'', 'file':'' },{ 'title':'', 'data':'', 'file':'' },
   //                   { 'title':'', 'data':'', 'file':'' },{ 'title':'', 'data':'', 'file':'' }];
-  public category:any = {id:1};
-  public user:any = {id:1};
+  categories:Category[];
+  color:Color;
+  manufactory:Manufactory;
+
   public created:string;
   public updated:string;
     constructor(o?:any){
@@ -99,30 +100,30 @@ export class Product{
             this.id = o.id;
             this.title = o.title;
             this.description = o.description;
-            this.n_subscription = o.n_subscription;
-            this.rating = o.rating;
-            if(o.logo){
-              this.logo = o.logo;
-            }
-            if(o.qrs && o.qrs.length > 0){
-              this.qrs = o.qrs;
-            }else{
-              this.qrs = [new QR(), new QR(), new QR(), new QR()];
-              for(let i=0; i<this.qrs.length; i++){
-                this.qrs[i].index = i;
+            this.year = o.year;
+            this.status = o.status;
+            this.dimension = o.dimension;
+            this.price = o.price;
+            this.currency = o.currency;
+
+            if(o.categories && o.categories.length > 0){
+              let cs = [];
+              for(let c of o.categories){
+                cs.push(new Category(c));
               }
+              this.categories = cs;
+            }else{
+              
             }
-            // if(o.qrs){ //load from front-end
-            //   this.qrs = o.images;
-            // }else{ // load from http
-            //   this.qrs = [ o.image0, o.image1, o.image2, o.image3 ];
-            // }
-            if(o.category){
-                this.category = o.category;
+            
+            if(o.color){
+                this.color = new Color(o.color);
             }
-            if(o.user){
-                this.user = o.user;
+
+            if(o.manufactory){
+                this.manufactory = new Manufactory(o.manufactory);
             }
+
             this.created = o.created;
             this.updated = o.updated;
       }

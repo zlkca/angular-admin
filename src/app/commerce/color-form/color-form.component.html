@@ -4,8 +4,8 @@
             <div class="label-sm">Name:</div>
             <input name="name" formControlName="name"/>
             <div *ngIf="name.touched && name.invalid" class="alert alert-danger">
-                <div *ngIf="name.errors.required">Product Name is required</div>
-                <div *ngIf="name.errors.minlength">Product Name should be minimum 3 characters.</div>
+                <div *ngIf="name.errors.required">Color Name is required</div>
+                <div *ngIf="name.errors.minlength">Color Name should be minimum 3 characters.</div>
             </div>
         </div>
         <div class="row">

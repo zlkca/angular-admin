@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { environment } from '../../environments/environment';
-import { Manufactory, Category, Product, Wechat, ImageDefaultTitle, QR, Subscription } from './commerce';
+import { Manufactory, Category, Product, Color, ImageDefaultTitle, QR, Subscription } from './commerce';
 import 'rxjs/add/observable/fromPromise';
 
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
@@ -102,7 +102,6 @@ export class CommerceService {
         });
     }
 
-
     getCategoryList(query?:string):Observable<Category[]>{
         const url = this.API_URL + 'categories' + (query ? query:'');
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
@@ -167,6 +166,70 @@ export class CommerceService {
         });
     }
     
+    getColorList(query?:string):Observable<Color[]>{
+        const url = this.API_URL + 'colors' + (query ? query:'');
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+        return this.http.get(url, {'headers': headers}).map((res:any) => {
+            let a:Color[] = [];
+            let d = res.data;
+            if( d && d.length > 0){
+                for(var i=0; i<d.length; i++){
+                    a.push(new Color(d[i]));
+                }
+            }
+            return a;
+        })
+        .catch((err) => {
+            return Observable.throw(err.message || err);
+        });
+    }
+
+    getColor(id:number):Observable<Color>{
+        const url = this.API_URL + 'color/' + id;
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+        return this.http.get(url, {'headers': headers}).map((res:any) => {
+            return new Color(res.data);
+        })
+        .catch((err) => {
+            return Observable.throw(err.message || err);
+        });
+    }
+
+    saveColor(d:Color):Observable<Color>{
+        const url = this.API_URL + 'color';
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+        let data = {
+          'id': d.id? d.id:'',
+          'name': d.name,
+          'description': d.description
+          // 'status': d.status,
+        }
+        return this.http.post(url, data, {'headers': headers}).map((res:any) => {
+            return new Color(res.data);
+        })
+        .catch((err) => {
+            return Observable.throw(err.message || err);
+        });
+    }
+
+    rmColor(id:number):Observable<Color[]>{
+        const url = this.API_URL + 'color/' + id;
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+        return this.http.delete(url, {'headers': headers}).map((res:any) => {
+            let a:Color[] = [];
+            let d = res.data;
+            if( d && d.length > 0){
+                for(var i=0; i<d.length; i++){
+                    a.push(new Color(d[i]));
+                }
+            }
+            return a;
+        })
+        .catch((err) => {
+            return Observable.throw(err.message || err);
+        });
+    }
+
     getImageDefaultTitle(id:number):Observable<ImageDefaultTitle>{
         const url = this.API_URL + 'image-default-title/1';
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
@@ -203,7 +266,7 @@ export class CommerceService {
         });
     }
     
-    getProductList(query?:string):Observable<any>{
+    getProductList(query?:string):Observable<Product[]>{
         const url = this.API_URL + 'products' + (query ? query:'');
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
         return this.http.get(url, {'headers': headers}).map((res:any) => {
@@ -282,27 +345,29 @@ export class CommerceService {
         let self = this;
 
         return Observable.fromPromise(new Promise((resolve, reject)=>{
-            
             let formData = new FormData();
-            
             formData.append('id', d.id? d.id:'');
             formData.append('title', d.title);
             formData.append('description', d.description);
-            formData.append('n_subscription', '1');//d.n_subscription.toString());
-            formData.append('rating', '1');//d.rating.toString());
-            formData.append('user_id', '1');//d.user.id);
-            formData.append('category_id', d.category.id);
-            formData.append('created', d.created);
+            formData.append('year', '2015');//d.n_subscription.toString());
+            formData.append('status', 'active');
+            formData.append('dimension', '10x10');//d.rating.toString());
+            formData.append('price', d.price.toString());
+            formData.append('currency', 'CAD');
+            formData.append('categories', d.categories[0].id.toString());
+            formData.append('color_id', d.color.id);
+            formData.append('manufactory_id', d.manufactory.id);
+            
             // formData.append('logo', d.logo);
-            for(let i=0; i<d.qrs.length; i++){
-                formData.append('title'+i, d.qrs[i].title);
-                if(d.qrs[i].image.data == self.emptyImage){
-                    formData.append('image_status'+i, 'clear');
-                }else{
-                    formData.append('image_status'+i, 'unchange');
-                }
-                formData.append('image'+i, d.qrs[i].image.file);
-            }
+            // for(let i=0; i<d.qrs.length; i++){
+            //     formData.append('title'+i, d.qrs[i].title);
+            //     if(d.qrs[i].image.data == self.emptyImage){
+            //         formData.append('image_status'+i, 'clear');
+            //     }else{
+            //         formData.append('image_status'+i, 'unchange');
+            //     }
+            //     formData.append('image'+i, d.qrs[i].image.file);
+            // }
             
 
             var xhr = new XMLHttpRequest();
@@ -348,53 +413,53 @@ export class CommerceService {
         });
     }
 
-    getWechat(id:number):Observable<Wechat>{
-        const url = this.API_URL + 'wechat/1';
-        let headers = new HttpHeaders().set('Content-Type', 'application/json');
-        return this.http.get(url, {'headers': headers}).map((res:any) => {
-            return new Wechat(res.data);
-        })
-        .catch((err) => {
-            return Observable.throw(err.message || err);
-        });
-    }
+    // getWechat(id:number):Observable<Wechat>{
+    //     const url = this.API_URL + 'wechat/1';
+    //     let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    //     return this.http.get(url, {'headers': headers}).map((res:any) => {
+    //         return new Wechat(res.data);
+    //     })
+    //     .catch((err) => {
+    //         return Observable.throw(err.message || err);
+    //     });
+    // }
 
-    saveWechat(d:Wechat){
-        let token = localStorage.getItem('token-' + this.APP);
-        return Observable.fromPromise(new Promise((resolve, reject)=>{
+    // saveWechat(d:Wechat){
+    //     let token = localStorage.getItem('token-' + this.APP);
+    //     return Observable.fromPromise(new Promise((resolve, reject)=>{
             
-            let formData = new FormData();
+    //         let formData = new FormData();
             
-            formData.append('id', d.id? d.id:'');
-            formData.append('title', d.title);
-            formData.append('description', d.description);
-            formData.append('created', d.created);
-            formData.append('logo', d.logo);
+    //         formData.append('id', d.id? d.id:'');
+    //         formData.append('title', d.title);
+    //         formData.append('description', d.description);
+    //         formData.append('created', d.created);
+    //         formData.append('logo', d.logo);
 
-            var xhr = new XMLHttpRequest();
+    //         var xhr = new XMLHttpRequest();
 
-            xhr.onreadystatechange = function (e) {
-              if (xhr.readyState === 4) { // done
-                if (xhr.status === 200) { // ok
-                    resolve(JSON.parse(xhr.response));
-                    //console.log(xhr.responseText);
-                } else {
-                    reject(xhr.response);
-                    //console.error(xhr.statusText);
-                }
-              }
-            };
+    //         xhr.onreadystatechange = function (e) {
+    //           if (xhr.readyState === 4) { // done
+    //             if (xhr.status === 200) { // ok
+    //                 resolve(JSON.parse(xhr.response));
+    //                 //console.log(xhr.responseText);
+    //             } else {
+    //                 reject(xhr.response);
+    //                 //console.error(xhr.statusText);
+    //             }
+    //           }
+    //         };
 
-            xhr.onerror = function (e) {
-                reject(xhr.response);
-                //console.error(xhr.statusText);
-            };
+    //         xhr.onerror = function (e) {
+    //             reject(xhr.response);
+    //             //console.error(xhr.statusText);
+    //         };
 
-            xhr.open("POST", this.API_URL + 'wechat', true);
-            xhr.setRequestHeader("authorization", "Bearer " + btoa(token));
-            xhr.send(formData);
-        }));
-    }
+    //         xhr.open("POST", this.API_URL + 'wechat', true);
+    //         xhr.setRequestHeader("authorization", "Bearer " + btoa(token));
+    //         xhr.send(formData);
+    //     }));
+    // }
 
     // updateProduct(d:Product){
     //     let token = localStorage.getItem('token-'+this.APP);
@@ -414,97 +479,97 @@ export class CommerceService {
     //     request.send(formData);
     // }
 
-    getQRList(query?:string):Observable<QR[]>{
-        const url = this.API_URL + 'qR' + (query ? query:'');
-        let headers = new HttpHeaders().set('Content-Type', 'application/json');
-        return this.http.get(url, {'headers': headers}).map((res:any) => {
-            let a:QR[] = [];
-            let d = res.data;
-            if( d && d.length > 0){
-                for(var i=0; i<d.length; i++){
-                    a.push(new QR(d[i]));
-                }
-            }
-            return a;
-        })
-        .catch((err) => {
-            return Observable.throw(err.message || err);
-        });
-    }
+    // getQRList(query?:string):Observable<QR[]>{
+    //     const url = this.API_URL + 'qR' + (query ? query:'');
+    //     let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    //     return this.http.get(url, {'headers': headers}).map((res:any) => {
+    //         let a:QR[] = [];
+    //         let d = res.data;
+    //         if( d && d.length > 0){
+    //             for(var i=0; i<d.length; i++){
+    //                 a.push(new QR(d[i]));
+    //             }
+    //         }
+    //         return a;
+    //     })
+    //     .catch((err) => {
+    //         return Observable.throw(err.message || err);
+    //     });
+    // }
 
-    getQR(id:number):Observable<QR>{
-        const url = this.API_URL + 'qR/id';
-        let headers = new HttpHeaders().set('Content-Type', 'application/json');
-        return this.http.get(url, {'headers': headers}).map((res:any) => {
-            return new QR(res.data);
-        })
-        .catch((err) => {
-            return Observable.throw(err.message || err);
-        });
-    }
+    // getQR(id:number):Observable<QR>{
+    //     const url = this.API_URL + 'qR/id';
+    //     let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    //     return this.http.get(url, {'headers': headers}).map((res:any) => {
+    //         return new QR(res.data);
+    //     })
+    //     .catch((err) => {
+    //         return Observable.throw(err.message || err);
+    //     });
+    // }
 
-    saveQR(d:QR):Observable<QR>{
-        const url = this.API_URL + 'qR';
-        let headers = new HttpHeaders().set('Content-Type', 'application/json');
-        let data = {
-          'title': d.title,
-          'image': d.image,
-          'product_id': d.product_id,
-        }
-        return this.http.post(url, data, {'headers': headers}).map((res:any) => {
-            return new QR(res.data);
-        })
-        .catch((err) => {
-            return Observable.throw(err.message || err);
-        });
-    }
+    // saveQR(d:QR):Observable<QR>{
+    //     const url = this.API_URL + 'qR';
+    //     let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    //     let data = {
+    //       'title': d.title,
+    //       'image': d.image,
+    //       'product_id': d.product_id,
+    //     }
+    //     return this.http.post(url, data, {'headers': headers}).map((res:any) => {
+    //         return new QR(res.data);
+    //     })
+    //     .catch((err) => {
+    //         return Observable.throw(err.message || err);
+    //     });
+    // }
 
-    getSubscriptionList(query?:string):Observable<Subscription[]>{
-        const url = this.API_URL + 'subscription' + (query ? query:'');
-        let headers = new HttpHeaders().set('Content-Type', 'application/json');
-        return this.http.get(url, {'headers': headers}).map((res:any) => {
-            let a:Subscription[] = [];
-            let d = JSON.parse(res.data);
-            if( d && d.length > 0){
-                for(var i=0; i<d.length; i++){
-                    a.push(new Subscription(d[i].fields));
-                }
-            }
-            return a;
-        })
-        .catch((err) => {
-            return Observable.throw(err.message || err);
-        });
-    }
+    // getSubscriptionList(query?:string):Observable<Subscription[]>{
+    //     const url = this.API_URL + 'subscription' + (query ? query:'');
+    //     let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    //     return this.http.get(url, {'headers': headers}).map((res:any) => {
+    //         let a:Subscription[] = [];
+    //         let d = JSON.parse(res.data);
+    //         if( d && d.length > 0){
+    //             for(var i=0; i<d.length; i++){
+    //                 a.push(new Subscription(d[i].fields));
+    //             }
+    //         }
+    //         return a;
+    //     })
+    //     .catch((err) => {
+    //         return Observable.throw(err.message || err);
+    //     });
+    // }
 
-    getSubscription(id:number):Observable<Subscription>{
-        const url = this.API_URL + 'subscription/id';
-        let headers = new HttpHeaders().set('Content-Type', 'application/json');
-        return this.http.get(url, {'headers': headers}).map((res:any) => {
-            return new Subscription(res.data);
-        })
-        .catch((err) => {
-            return Observable.throw(err.message || err);
-        });
-    }
+    // getSubscription(id:number):Observable<Subscription>{
+    //     const url = this.API_URL + 'subscription/id';
+    //     let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    //     return this.http.get(url, {'headers': headers}).map((res:any) => {
+    //         return new Subscription(res.data);
+    //     })
+    //     .catch((err) => {
+    //         return Observable.throw(err.message || err);
+    //     });
+    // }
 
-    saveSubscription(d:Subscription):Observable<Subscription>{
-        const url = this.API_URL + 'subscription';
-        let headers = new HttpHeaders().set('Content-Type', 'application/json');
-        let data = {
-          'user_id': d.user.id,
-          'ip': d.ip,
-          'product_id': d.product.id,
-          'created': d.created,
-          'updated': d.updated,
-        }
-        return this.http.post(url, data, {'headers': headers}).map((res:any) => {
-            return new Subscription(res.data);
-        })
-        .catch((err) => {
-            return Observable.throw(err.message || err);
-        });
-    }
+    // saveSubscription(d:Subscription):Observable<Subscription>{
+    //     const url = this.API_URL + 'subscription';
+    //     let headers = new HttpHeaders().set('Content-Type', 'application/json');
+    //     let data = {
+    //       'user_id': d.user.id,
+    //       'ip': d.ip,
+    //       'product_id': d.product.id,
+    //       'created': d.created,
+    //       'updated': d.updated,
+    //     }
+    //     return this.http.post(url, data, {'headers': headers}).map((res:any) => {
+    //         return new Subscription(res.data);
+    //     })
+    //     .catch((err) => {
+    //         return Observable.throw(err.message || err);
+    //     });
+    // }
 
 
 

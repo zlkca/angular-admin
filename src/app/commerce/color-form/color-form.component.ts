@@ -3,15 +3,15 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { CommerceService } from '../commerce.service';
-import { Product } from '../commerce';
+import { Color } from '../commerce';
 
 @Component({
-  selector: 'app-product-form',
-  templateUrl: './product-form.component.html',
-  styleUrls: ['./product-form.component.scss']
+  selector: 'app-color-form',
+  templateUrl: './color-form.component.html',
+  styleUrls: ['./color-form.component.scss']
 })
-export class ProductFormComponent implements OnInit {
-    product:Product = new Product();
+export class ColorFormComponent implements OnInit {
+    category:Color = new Color();
     id:string = '';
 
     form:FormGroup = new FormGroup({
@@ -32,23 +32,23 @@ export class ProductFormComponent implements OnInit {
     ngOnInit() {
         let self = this;
         self.route.params.subscribe((params:any)=>{
-            this.commerceServ.getProduct(params.id).subscribe(
-                (r:Product) => {
+            this.commerceServ.getColor(params.id).subscribe(
+                (r:Color) => {
                     self.id = r.id;
                     self.form.patchValue(r);
                 },
                 (err:any) => {
-                    // self.product = new Product();
+                    // self.category = new Color();
                 });
         });
     }
 
     save() {
         let self = this;
-        let c = new Product(this.form.value);
+        let c = new Color(this.form.value);
         c.id = self.id;
-        this.commerceServ.saveProduct(c).subscribe( (r:any) => {
-            self.router.navigate(['admin/products']);
+        this.commerceServ.saveColor(c).subscribe( (r:any) => {
+            self.router.navigate(['admin/colors']);
         });
     }
 }
