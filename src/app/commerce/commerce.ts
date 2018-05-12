@@ -1,15 +1,27 @@
 import { User } from '../account/account';
+
+export class Manufactory{
+  public id:string;
+  public name:string;
+  public description:string;
+  constructor(o?:any){
+    this.id = o.id? o.id:'';
+    this.name = o.name;
+    this.description = o.description;
+  }
+}
+
 export class Category{
   public id:string;
   public name:string;
   public description:string;
-  public status:string;
+  // public status:string;
     constructor(o?:any){
         if(o){
             this.id = o.id;
             this.name = o.name;
             this.description = o.description;
-            this.status = o.status;
+            // this.status = o.status;
       }
   }
 }

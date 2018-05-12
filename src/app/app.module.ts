@@ -49,13 +49,13 @@ const appRoutes: Routes = [
   // { path: 'admin', component:AdminDashboardComponent },
   { path: 'admin/login', component:LoginComponent },
   { path: 'admin/signup', component:SignupComponent },
-  { path: '', component:LayoutComponent,
-      children:[
-        { path: 'products', component:ProductListComponent },
-        { path: 'product/:id', component:ProductComponent },
-        { path: 'home', component:HomeComponent }
-      ]
-  }
+  //{ path: '', component:LayoutComponent,
+      // children:[
+      //   { path: 'products', component:ProductListComponent },
+      //   { path: 'product/:id', component:ProductComponent },
+      //   { path: 'home', component:HomeComponent }
+      // ]
+  //}
 ];
 
 

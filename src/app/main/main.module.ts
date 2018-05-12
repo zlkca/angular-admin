@@ -7,17 +7,27 @@ import { ManufactoryComponent } from './manufactory/manufactory.component';
 import { RouterModule, Routes } from '@angular/router';
 
 import { SharedModule } from '../shared/shared.module';
+import { CommerceModule} from '../commerce/commerce.module';
+
+import { ManufactoryListComponent } from '../commerce/manufactory-list/manufactory-list.component';
+import { ManufactoryFormComponent } from '../commerce/manufactory-form/manufactory-form.component';
+import { CategoryListComponent } from '../commerce/category-list/category-list.component';
+import { CategoryFormComponent } from '../commerce/category-form/category-form.component';
+import { LoginComponent } from '../account/login/login.component';
+
 const adminRoutes:Routes = [
   {
-    path:'admin',
-    component:LayoutComponent,
-    // children:[
+    path:'admin', component:LayoutComponent,
+    children:[
+      { path: 'manufactories', component:ManufactoryListComponent },
+      { path: 'manufactory/:id', component:ManufactoryFormComponent },
+      { path: 'manufactory', component:ManufactoryFormComponent },
     //   { path: 'users', component:AdminUserListComponent },
     //   { path: 'user/:id', component:AdminUserFormComponent },
-    //   { path: 'user', component:AdminUserFormComponent },
-    //   { path: 'categories', component:AdminCategoryListComponent },
-    //   { path: 'category/:id', component:AdminCategoryFormComponent },
-    //   { path: 'category', component:AdminCategoryFormComponent },
+      // { path: 'user', component:AdminUserFormComponent },
+      { path: 'categories', component:CategoryListComponent },
+      { path: 'category/:id', component:CategoryFormComponent },
+      { path: 'category', component:CategoryFormComponent },
     //   { path: 'courses', component:AdminCourseListComponent},
     //   { path: 'course/:id', component:AdminCourseFormComponent },
     //   { path: 'course', component:AdminCourseFormComponent},
@@ -27,7 +37,7 @@ const adminRoutes:Routes = [
     //   { path: 'comments', component:AdminCommentListComponent},
     //   { path: 'comment/:id', component:AdminCommentFormComponent },
     //   { path: 'comment', component:AdminCommentFormComponent}
-    // ]
+    ]
   }
 ]
 @NgModule({

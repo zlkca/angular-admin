@@ -1,3 +1,17 @@
-<p>
-  manufactory-list works!
-</p>
+<div class="page">
+	<div *ngIf="manufactoryList.length==0">
+		<button (click)="toPage('admin/manufactory')">Add Manufactory</button>
+	</div>
+	<div *ngIf="manufactoryList.length>0">
+		<div class="row" *ngFor="let m of manufactoryList">
+			<div class="col">{{m.name}}</div>
+			<div class="col">{{m.description}}</div>
+			<div class="col">
+				<div class="btn" (click)="add()">Add</div>
+	            <div class="btn" (click)="change(m)">Change</div>
+	            <div class="btn" (click)="delete(m)">Delete</div>
+	        </div>
+		</div>
+	</div>
+</div>
+

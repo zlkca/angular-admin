@@ -3,7 +3,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { CommerceService } from '../../commerce/commerce.service';
 import { Category, Product } from '../../commerce/commerce';
 import { environment } from '../../../environments/environment';
-import { TranslateService } from '@ngx-translate/core';
 
 @Component({
     providers:[CommerceService],
@@ -20,7 +19,7 @@ export class ProductDetailComponent implements OnInit {
     emptyImage = environment.APP_URL + '/media/empty.png';
     defaultTitles:any = ['','','',''];
 
-    constructor(private translate:TranslateService, private commerceServ:CommerceService, private router: Router, private route: ActivatedRoute){
+    constructor(private commerceServ:CommerceService, private router: Router, private route: ActivatedRoute){
 
     }
 

@@ -330,7 +330,11 @@ body{
   }// end of auth-form
 
   @media #{$desktop}{
-
+    form{
+      input{
+        min-width: 540px;
+      }
+    }
   }
 
   @media #{$tablet}{

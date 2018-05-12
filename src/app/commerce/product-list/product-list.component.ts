@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { CommerceService } from '../../commerce/commerce.service';
 import { Product } from '../../commerce/commerce';
 import { SharedService } from '../../shared/shared.service';
-import { TranslateService } from '@ngx-translate/core';
 
 import { environment } from '../../../environments/environment';
 
@@ -27,8 +26,7 @@ export class ProductListComponent implements OnInit {
     item:any;
     frame:any;
 
-    constructor(private translate:TranslateService, private sharedServ:SharedService, private router:Router, 
-        private commerceServ:CommerceService){
+    constructor(private sharedServ:SharedService, private router:Router, private commerceServ:CommerceService){
         let self = this;
         
         this.sharedServ.getMsg().subscribe(msg => {

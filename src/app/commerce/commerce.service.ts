@@ -4,17 +4,19 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { environment } from '../../environments/environment';
-import { Category,Product,Wechat,ImageDefaultTitle, QR,Subscription } from './commerce';
+import { Manufactory, Category, Product, Wechat, ImageDefaultTitle, QR, Subscription } from './commerce';
 import 'rxjs/add/observable/fromPromise';
 
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-//import { Observable } from 'rxjs/Observable';
+
+const APP = environment.APP;
+const API_URL = environment.API_URL;
+
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
-    APP = environment.APP;
   constructor() {}
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    let token = localStorage.getItem('token-' + this.APP);
+    let token = localStorage.getItem('token-' + APP);
     request = request.clone({
       setHeaders: {
         'Content-Type': 'application/json; charset=utf-8',
@@ -35,7 +37,73 @@ export class CommerceService {
     emptyImage = environment.APP_URL + '/media/empty.png';
 
     constructor(private http:HttpClient){ }
-    getCategoryList(query?:string):Observable<any>{
+
+
+    getManufactoryList(query?:string):Observable<Manufactory[]>{
+        const url = API_URL + 'manufactories' + (query ? query:'');
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+        return this.http.get(url, {'headers': headers}).map((res:any) => {
+            let a:Manufactory[] = [];
+            let d = res.data;
+            if( d && d.length > 0){
+                for(var i=0; i<d.length; i++){
+                    a.push(new Manufactory(d[i]));
+                }
+            }
+            return a;
+        })
+        .catch((err) => {
+            return Observable.throw(err.message || err);
+        });
+    }
+
+    getManufactory(id:number):Observable<Manufactory>{
+        const url = API_URL + 'manufactory/' + id;
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+        return this.http.get(url, {'headers': headers}).map((res:any) => {
+            return new Manufactory(res.data);
+        })
+        .catch((err) => {
+            return Observable.throw(err.message || err);
+        });
+    }
+
+    saveManufactory(d:Manufactory):Observable<Manufactory>{
+        const url = API_URL + 'manufactory';
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+        let data = {
+          'id': d.id? d.id:'',
+          'name': d.name,
+          'description': d.description
+        }
+        return this.http.post(url, data, {'headers': headers}).map((res:any) => {
+            return new Manufactory(res.data);
+        })
+        .catch((err) => {
+            return Observable.throw(err.message || err);
+        });
+    }
+
+    rmManufactory(id:number):Observable<Manufactory[]>{
+        const url = API_URL + 'manufactory/' + id;
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+        return this.http.delete(url, {'headers': headers}).map((res:any) => {
+            let a:Manufactory[] = [];
+            let d = res.data;
+            if( d && d.length > 0){
+                for(var i=0; i<d.length; i++){
+                    a.push(new Manufactory(d[i]));
+                }
+            }
+            return a;
+        })
+        .catch((err) => {
+            return Observable.throw(err.message || err);
+        });
+    }
+
+
+    getCategoryList(query?:string):Observable<Category[]>{
         const url = this.API_URL + 'categories' + (query ? query:'');
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
         return this.http.get(url, {'headers': headers}).map((res:any) => {
@@ -70,8 +138,8 @@ export class CommerceService {
         let data = {
           'id': d.id? d.id:'',
           'name': d.name,
-          'description': d.description,
-          'status': d.status,
+          'description': d.description
+          // 'status': d.status,
         }
         return this.http.post(url, data, {'headers': headers}).map((res:any) => {
             return new Category(res.data);
@@ -81,7 +149,7 @@ export class CommerceService {
         });
     }
 
-    rmCategory(id:number):Observable<any>{
+    rmCategory(id:number):Observable<Category[]>{
         const url = this.API_URL + 'category/' + id;
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
         return this.http.delete(url, {'headers': headers}).map((res:any) => {

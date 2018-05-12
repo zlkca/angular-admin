@@ -3,6 +3,9 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { AuthService } from './auth.service';
 import { environment } from '../../environments/environment';
 
+const APP = environment.APP;
+const API_URL = environment.API_URL;
+
 describe('AuthService', () => {
 	let injector: TestBed;
 	let httpMock: HttpTestingController;
@@ -25,7 +28,7 @@ describe('AuthService', () => {
   	let dummyLogin = { token:'a', data:{username:'z', email:'admin@gmail.com', first_name:'a', last_name:'b'}};
 
   	service.login('z','p1').subscribe((r:any)=>{
-  		let token = localStorage.getItem('token-'+service.APP);
+  		let token = localStorage.getItem('token-'+APP);
   		expect(token).toBe(dummyLogin.token);
   		expect(r.username).toBe(dummyLogin.data.username);
   		expect(r.email).toBe(dummyLogin.data.email);
@@ -33,7 +36,7 @@ describe('AuthService', () => {
   		expect(r.last_name).toBe(dummyLogin.data.last_name);	
   	})
     
-    const req = httpMock.expectOne({method:'POST', url:'http://localhost:8000/api/login'});
+    const req = httpMock.expectOne({method:'POST', url:API_URL+'login'});
     expect(req.request.method).toBe('POST');
     req.flush(dummyLogin);
   }));
@@ -43,12 +46,12 @@ describe('AuthService', () => {
   	let dummyLogin = { token:'', data:''};
 
   	service.login('z','p1').subscribe((r:any)=>{
-  		let token = localStorage.getItem('token-'+service.APP);
+  		let token = localStorage.getItem('token-'+APP);
   		expect(token).toBe(dummyLogin.token);
   		expect(r).toBe(null);	
   	})
     
-    const req = httpMock.expectOne({method:'POST', url:'http://localhost:8000/api/login'});
+    const req = httpMock.expectOne({method:'POST', url:API_URL+'login'});
     expect(req.request.method).toBe('POST');
     req.flush(dummyLogin);
   }));
@@ -62,12 +65,12 @@ describe('AuthService', () => {
   		});	
   	})
     
-    const req = httpMock.expectOne({method:'POST', url:'http://localhost:8000/api/login'});
+    const req = httpMock.expectOne({method:'POST', url:API_URL+'login'});
     expect(req.request.method).toBe('POST');
     req.flush(dummyLogin);
 
 
-    const req1 = httpMock.expectOne({method:'POST', url:'http://localhost:8000/api/token'});
+    const req1 = httpMock.expectOne({method:'POST', url:API_URL+'token'});
     expect(req1.request.method).toBe('POST');
     req1.flush(dummyLogin);
   }));
@@ -81,11 +84,11 @@ describe('AuthService', () => {
   		});	
   	})
     
-    const req = httpMock.expectOne({method:'POST', url:'http://localhost:8000/api/login'});
+    const req = httpMock.expectOne({method:'POST', url:API_URL+'login'});
     expect(req.request.method).toBe('POST');
     req.flush(dummyLogin);
 
-    const req1 = httpMock.expectOne({method:'POST', url:'http://localhost:8000/api/token'});
+    const req1 = httpMock.expectOne({method:'POST', url:API_URL+'token'});
     expect(req1.request.method).toBe('POST');
     req1.flush(dummyLogin);
   }));
@@ -93,12 +96,12 @@ describe('AuthService', () => {
   it('should checkToken successful', inject([AuthService, HttpTestingController], (service: AuthService, httpMock:HttpTestingController) => {
   	let dummyLogin = { token:'a', data:{username:'z', email:'admin@gmail.com', first_name:'a', last_name:'b'}};
 
-	let token = localStorage.getItem('token-'+service.APP);
+	let token = localStorage.getItem('token-'+APP);
 	service.checkToken(token).subscribe((rt:any)=>{
 		expect(rt).toBe(dummyLogin.data);
 	});
     
-    const req = httpMock.expectOne({method:'POST', url:'http://localhost:8000/api/token'});
+    const req = httpMock.expectOne({method:'POST', url:API_URL+'token'});
     expect(req.request.method).toBe('POST');
     req.flush(dummyLogin);
   }));
@@ -108,11 +111,11 @@ describe('AuthService', () => {
 
   	service.login('z','p1').subscribe((r:any)=>{
   		service.logout();
-  		let token = localStorage.getItem('token-'+service.APP);
+  		let token = localStorage.getItem('token-'+APP);
   		expect(token).toBe(null);
   	})
     
-    const req = httpMock.expectOne({method:'POST', url:'http://localhost:8000/api/login'});
+    const req = httpMock.expectOne({method:'POST', url:API_URL+'login'});
     expect(req.request.method).toBe('POST');
     req.flush(dummyLogin);
 
@@ -123,14 +126,14 @@ describe('AuthService', () => {
     let dummyLogin = { token:'a', data:{username:'z', email:'admin@gmail.com', password:''}};
 
     service.signup('z','email','p1').subscribe((r:any)=>{
-      let token = localStorage.getItem('token-'+service.APP);
+      let token = localStorage.getItem('token-'+APP);
       expect(token).toBe(dummyLogin.token);
       expect(r.username).toBe(dummyLogin.data.username);
       expect(r.email).toBe(dummyLogin.data.email);
       //expect(r.password).toBe('');
     })
     
-    const req = httpMock.expectOne({method:'POST', url:'http://localhost:8000/api/signup'});
+    const req = httpMock.expectOne({method:'POST', url:API_URL+'signup'});
     expect(req.request.method).toBe('POST');
     req.flush(dummyLogin);
   }));
@@ -140,12 +143,12 @@ describe('AuthService', () => {
     let dummyLogin = { token:'', data:''};
 
     service.signup('z','e','p1').subscribe((r:any)=>{
-      let token = localStorage.getItem('token-'+service.APP);
+      let token = localStorage.getItem('token-'+APP);
       expect(token).toBe(dummyLogin.token);
       expect(r).toBe(null);  
     })
     
-    const req = httpMock.expectOne({method:'POST', url:'http://localhost:8000/api/signup'});
+    const req = httpMock.expectOne({method:'POST', url:API_URL+'signup'});
     expect(req.request.method).toBe('POST');
     req.flush(dummyLogin);
   }));
