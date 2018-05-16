@@ -133,7 +133,7 @@ import { CommerceService } from '../commerce.service';
     styleUrls: ['./product-list.component.scss']
 })
 export class ProductListComponent implements OnInit {
-    productList:Product[];
+    productList:Product[] = [];
 
     constructor(private sharedServ:SharedService, private commerceServ:CommerceService, private router:Router){ }
 

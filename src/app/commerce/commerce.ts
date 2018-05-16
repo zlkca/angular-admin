@@ -78,7 +78,7 @@ export class QR{
 
 export class Product{
   public id:string;
-  public title:string;
+  public name:string;
   public description:string;
   year:string;
   status:string;
@@ -90,15 +90,15 @@ export class Product{
   // public qrs:any = [{ 'title':'', 'data':'', 'file':'' },{ 'title':'', 'data':'', 'file':'' },
   //                   { 'title':'', 'data':'', 'file':'' },{ 'title':'', 'data':'', 'file':'' }];
   categories:Category[];
-  color:Color;
-  manufactory:Manufactory;
+  color_id:string;
+  manufactory_id:string;
 
   public created:string;
   public updated:string;
     constructor(o?:any){
         if(o){
             this.id = o.id;
-            this.title = o.title;
+            this.name = o.name;
             this.description = o.description;
             this.year = o.year;
             this.status = o.status;
@@ -113,15 +113,15 @@ export class Product{
               }
               this.categories = cs;
             }else{
-              
+              this.categories = [];
             }
             
-            if(o.color){
-                this.color = new Color(o.color);
+            if(o.color_id){
+                this.color_id = o.color_id;
             }
 
-            if(o.manufactory){
-                this.manufactory = new Manufactory(o.manufactory);
+            if(o.manufactory_id){
+                this.manufactory_id = o.manufactory_id;
             }
 
             this.created = o.created;

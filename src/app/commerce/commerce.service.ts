@@ -267,7 +267,7 @@ export class CommerceService {
     }
     
     getProductList(query?:string):Observable<Product[]>{
-        const url = this.API_URL + 'products' + (query ? query:'');
+        const url = API_URL + 'products' + (query ? query:'');
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
         return this.http.get(url, {'headers': headers}).map((res:any) => {
             let a:Product[] = [];
@@ -285,7 +285,7 @@ export class CommerceService {
     }
 
     getProduct(id:number):Observable<Product>{
-        const url = this.API_URL + 'product/' + id;
+        const url = API_URL + 'product/' + id;
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
         return this.http.get(url, {'headers': headers}).map((res:any) => {
             return new Product(res.data);
@@ -347,16 +347,16 @@ export class CommerceService {
         return Observable.fromPromise(new Promise((resolve, reject)=>{
             let formData = new FormData();
             formData.append('id', d.id? d.id:'');
-            formData.append('title', d.title);
+            formData.append('name', d.name);
             formData.append('description', d.description);
             formData.append('year', '2015');//d.n_subscription.toString());
             formData.append('status', 'active');
             formData.append('dimension', '10x10');//d.rating.toString());
-            formData.append('price', d.price.toString());
+            formData.append('price', d.price? d.price.toString():'');
             formData.append('currency', 'CAD');
-            formData.append('categories', d.categories[0].id.toString());
-            formData.append('color_id', d.color.id);
-            formData.append('manufactory_id', d.manufactory.id);
+            formData.append('categories', Array.from(d.categories, x => x.id).join(','));
+            formData.append('color_id', d.color_id);
+            formData.append('manufactory_id', d.manufactory_id);
             
             // formData.append('logo', d.logo);
             // for(let i=0; i<d.qrs.length; i++){
