@@ -351,12 +351,12 @@ export class CommerceService {
             formData.append('description', d.description);
             formData.append('year', '2015');//d.n_subscription.toString());
             formData.append('status', 'active');
-            formData.append('dimension', '10x10');//d.rating.toString());
+            formData.append('dimension', d.dimension);//d.rating.toString());
             formData.append('price', d.price? d.price.toString():'');
             formData.append('currency', 'CAD');
             formData.append('categories', Array.from(d.categories, x => x.id).join(','));
-            formData.append('color_id', d.color_id);
-            formData.append('manufactory_id', d.manufactory_id);
+            formData.append('color_id', d.color.id);
+            formData.append('manufactory_id', d.manufactory.id);
             
             // formData.append('logo', d.logo);
             // for(let i=0; i<d.qrs.length; i++){

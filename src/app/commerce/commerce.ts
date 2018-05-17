@@ -90,8 +90,8 @@ export class Product{
   // public qrs:any = [{ 'title':'', 'data':'', 'file':'' },{ 'title':'', 'data':'', 'file':'' },
   //                   { 'title':'', 'data':'', 'file':'' },{ 'title':'', 'data':'', 'file':'' }];
   categories:Category[];
-  color_id:string;
-  manufactory_id:string;
+  color:Color;
+  manufactory:Manufactory;
 
   public created:string;
   public updated:string;
@@ -116,12 +116,12 @@ export class Product{
               this.categories = [];
             }
             
-            if(o.color_id){
-                this.color_id = o.color_id;
+            if(o.color){
+                this.color = new Color(o.color);
             }
 
-            if(o.manufactory_id){
-                this.manufactory_id = o.manufactory_id;
+            if(o.manufactory){
+                this.manufactory = new Manufactory(o.manufactory);
             }
 
             this.created = o.created;

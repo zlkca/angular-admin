@@ -19,7 +19,7 @@ export class ProductFormComponent implements OnInit {
 
     form:FormGroup = new FormGroup({
         name: new FormControl('', [Validators.required, Validators.minLength(3)]),
-        description: new FormControl('',[Validators.maxLength(750)]),
+        description: new FormControl('',[Validators.maxLength(980)]),
         dimension: new FormControl(),
         price: new FormControl(),
         categories: new FormArray([]),
@@ -75,10 +75,11 @@ export class ProductFormComponent implements OnInit {
                 (p:Product) => {
                     self.id = p.id;
                     self.form.patchValue(p);
+                    self.form.patchValue({manufactory_id:p.manufactory.id, color_id:p.color.id});
                     self.commerceServ.getCategoryList().subscribe(catList=>{
                         self.categoryList = catList;
                         for(let cat of catList){
-                            let c = p.categories.find(x=>x.id==cat.id);
+                            let c = p.categories.find(x=> x.id==cat.id );
                             if(c){
                                 self.categories.push(new FormControl(true));
                             }else{
@@ -119,10 +120,25 @@ export class ProductFormComponent implements OnInit {
         //this.color.patchValue({'id':id});
     }
 
+    getCheckedCategories(){
+        let cs = [];
+        for(let i=0; i<this.categoryList.length; i++){
+            let c = this.categoryList[i];
+            if(this.categories.get(i.toString()).value){
+                cs.push(c);
+            }
+        }
+        return cs;
+    }
+
     save() {
         let self = this;
-        let checkedCategories = this.form.value.categories.filter(x=> x.checked);
-        let newV = {...this.form.value, id: self.id, categories: checkedCategories};
+        let newV = {...this.form.value, 
+            id: self.id, 
+            categories: self.getCheckedCategories(),
+            manufactory: {id:self.manufactory_id.value},
+            color:{id:self.color_id.value}
+        };
         let c = new Product(newV);
         this.commerceServ.saveProduct(c).subscribe( (r:any) => {
             self.router.navigate(['admin/products']);
