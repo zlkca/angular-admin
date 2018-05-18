@@ -8,6 +8,7 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { SharedService } from './shared.service';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { ImageUploaderComponent } from './image-uploader/image-uploader.component';
 
 @NgModule({
   imports: [
@@ -17,10 +18,11 @@ import { FooterComponent } from './footer/footer.component';
   ],
   declarations: [
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    ImageUploaderComponent
   ],
   providers:[SharedService],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-  exports:[ HeaderComponent, FooterComponent ]
+  exports:[ HeaderComponent, FooterComponent, ImageUploaderComponent ]
 })
 export class SharedModule { }

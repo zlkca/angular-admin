@@ -1,0 +1,14 @@
+<div class="image-uploader">
+        <div class="row" *ngFor="let pic of data; let i=index"><!-- 
+            <div class="label-sm">Picture Name</div>
+            <input name="title{{i}}" [value]="pic.title" />
+            <div class="label-sm">Picture</div> -->
+            <input class="upload-input" name="image{{i}}" type="file" (change)="onImageChange($event, i)" />
+            <div class="img-frame">
+                <img [src]="MEDIA_ROOT + pic.image.data" />
+            </div>
+            <div class="btn" (click)="onLoadImage(i)">Upload</div>
+            <div class="btn" (click)="onDeleteImage(i)">Delete</div>
+            <div class="label-sm">*Need to click the Save button to save the result</div>
+        </div>
+</div>

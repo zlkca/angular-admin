@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormArray, FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { CommerceService } from '../commerce.service';
-import { Product, Category, Manufactory, Color } from '../commerce';
+import { Product, Category, Manufactory, Color, Picture } from '../commerce';
+import { ImageUploaderComponent } from '../../shared/image-uploader/image-uploader.component';
 
 @Component({
   selector: 'app-product-form',
@@ -16,6 +17,10 @@ export class ProductFormComponent implements OnInit {
     manufactoryList:Manufactory[] = [];
     colorList:Color[] = [];
     id:string = '';
+    pictures:Picture[] = [ new Picture() ];
+
+    @ViewChild(ImageUploaderComponent)
+    uploader:any;
 
     form:FormGroup = new FormGroup({
         name: new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -74,6 +79,7 @@ export class ProductFormComponent implements OnInit {
             this.commerceServ.getProduct(params.id).subscribe(
                 (p:Product) => {
                     self.id = p.id;
+                    self.pictures = p.pictures;
                     self.form.patchValue(p);
                     self.form.patchValue({manufactory_id:p.manufactory.id, color_id:p.color.id});
                     self.commerceServ.getCategoryList().subscribe(catList=>{
@@ -137,12 +143,103 @@ export class ProductFormComponent implements OnInit {
             id: self.id, 
             categories: self.getCheckedCategories(),
             manufactory: {id:self.manufactory_id.value},
-            color:{id:self.color_id.value}
+            color:{id:self.color_id.value},
+            pictures: self.uploader.data
         };
+
         let c = new Product(newV);
         this.commerceServ.saveProduct(c).subscribe( (r:any) => {
             self.router.navigate(['admin/products']);
         });
     }
+
+    // ngOnInit() {
+    //     let self = this;
+        
+    //     self.commerceServ.getCategoryList().subscribe(
+    //         (r:Category[]) => {
+    //             self.categoryList = r;
+    //         },
+    //         (err:any) => {
+    //             self.categoryList = [];
+    //         });
+
+    //     self.route.params.subscribe((params:any)=>{
+    //         self.id = params.id;
+
+    //         self.commerceServ.getImageDefaultTitle(1).subscribe((r)=>{
+    //             self.defaultTitles = [r.name0, r.name1, r.name2, r.name3];
+
+    //             if(params.id){
+    //               self.commerceServ.getWechatGroup(params.id).subscribe(
+    //                 (r:WechatGroup) => {
+    //                     r.qrs = self.commerceServ.getWechatGroupQRs(r.qrs, self.defaultTitles);
+    //                     self.wechatgroup = r
+    //                 },
+    //                 (err:any) => {
+    //                     let r = new WechatGroup();
+    //                     r.category = {'id':1};
+    //                     r.qrs = self.commerceServ.getWechatGroupQRs(r.qrs, self.defaultTitles);
+    //                     self.wechatgroup = r;
+    //                 });
+    //             }else{
+    //                 let r = new WechatGroup();
+    //                 r.category = {'id':1};
+    //                 r.qrs = self.commerceServ.getWechatGroupQRs(r.qrs, self.defaultTitles);
+    //                 self.wechatgroup = r;
+    //             }
+
+    //         },(err)=>{
+              
+    //         });
+
+
+    //     });
+    // }
+
+    // save() {
+    //     let self = this;
+    //     self.wechatgroup.user = {'id':1, 'name':'admin'};
+    //     self.wechatgroup.id = self.id;
+    //     // self.wechatgroup.images = self.images;
+    //     self.commerceServ.saveWechatGroup(self.wechatgroup).subscribe(
+    //         (r:any) => {
+    //             //self.wechatgroup = new WechatGroup(r.data[0]);
+    //             self.router.navigate(["admin/wechatgroups"]);
+    //         },
+    //         (err:any) => {
+    //             //self.wechatgroup = new WechatGroup();
+    //             self.router.navigate(["admin/wechatgroups"]);
+    //         });
+    // }
+    // onLoadImage(i:number){
+    //   $('[name="image'+ i +'"]').click();
+    // }
+
+    // onDeleteImage(i:number){
+    //     let qr = this.wechatgroup.qrs[i];//new QR();
+    //     //qr.index = i;
+    //     qr.image.data = this.emptyImage;
+    //     qr.image.file = '';
+    //     this.wechatgroup.qrs[i] = qr;
+    // }
+
+    // onImageChange(event:any, i:number){
+    //     let self = this;
+    //     let reader = new FileReader();
+    //     if(event.target.files && event.target.files.length > 0) {
+    //       let file = event.target.files[0];
+    //       reader.readAsDataURL(file);
+    //       reader.onload = () => {
+    //           self.wechatgroup.qrs[i].image = {data: reader.result, file: event.target.files[0]};//.split(',')[1];
+    //           //self.wechatgroup.logo = event.target.files[0];
+    //       //   this.form.get('avatar').setValue({
+    //       //     filename: file.name,
+    //       //     filetype: file.type,
+    //       //     value: reader.result.split(',')[1]
+    //       //   })
+    //       }
+    //     }
+    // }
 }
 

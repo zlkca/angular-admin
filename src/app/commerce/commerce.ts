@@ -1,13 +1,20 @@
 import { User } from '../account/account';
+const MAX_N_PICTURES = 5;
 
 export class Manufactory{
   public id:string;
   public name:string;
   public description:string;
-  constructor(o?:any){
-    this.id = o.id? o.id:'';
-    this.name = o.name;
-    this.description = o.description;
+  public created:string;
+  public updated:string;
+    constructor(o?:any){
+        if(o){
+           this.id = o.id;
+            this.name = o.name;
+            this.description = o.description;
+            this.created = o.created;
+            this.updated = o.updated;
+      }
   }
 }
 
@@ -15,16 +22,21 @@ export class Category{
   public id:string;
   public name:string;
   public description:string;
-  // public status:string;
+  public status:string;
+  public created:string;
+  public updated:string;
     constructor(o?:any){
         if(o){
-            this.id = o.id;
+           this.id = o.id;
             this.name = o.name;
             this.description = o.description;
-            // this.status = o.status;
+            this.status = o.status;
+            this.created = o.created;
+            this.updated = o.updated;
       }
   }
 }
+
 
 export class Color{
   public id:string;
@@ -57,21 +69,27 @@ export class ImageDefaultTitle{
   }
 }
 
-export class QR{
-  public title:string = '';
+
+export class Picture{
+  public id:string;
+  public name:string;
+  public description:string;
   public index:number;
   public image:any = { 'data':'', 'file':'' };
-  public product_id:any;
+  public width:number;
+  public height:number;
+  public product:any = {id:1};
     constructor(o?:any){
         if(o){
-            this.title = o.title;
-            this.index = o.index;
+           this.id = o.id;
+            this.name = o.name;
+            this.description = o.description;
             this.image = o.image;
-            this.product_id = o.product_id;
-
-            // if(o.product && o.productlength>0){
-            //     this.product = {'id':o.product[0], 'name':o.product[1]};
-            // }
+            this.width = o.width;
+            this.height = o.height;
+            if(o.product){
+                this.product = o.product;
+            }
       }
   }
 }
@@ -86,13 +104,11 @@ export class Product{
   dimension:string;
   price:number;
 
-  //public qrs:QR[] = [new QR(), new QR(), new QR(), new QR()];
-  // public qrs:any = [{ 'title':'', 'data':'', 'file':'' },{ 'title':'', 'data':'', 'file':'' },
-  //                   { 'title':'', 'data':'', 'file':'' },{ 'title':'', 'data':'', 'file':'' }];
   categories:Category[];
   color:Color;
   manufactory:Manufactory;
-
+  pictures:Picture[] = [];
+  
   public created:string;
   public updated:string;
     constructor(o?:any){
@@ -102,6 +118,18 @@ export class Product{
             this.description = o.description;
             this.year = o.year;
             this.status = o.status;
+            
+            if(o.pictures && o.pictures.length > 0){
+              this.pictures = o.pictures;
+            }else{
+              for(let i=0; i<MAX_N_PICTURES; i++){
+                let pic = new Picture();
+                pic.index = i;
+                this.pictures.push(pic);
+              }
+            }
+
+            // this.pic = o.pic;
             this.dimension = o.dimension;
             this.price = o.price;
             this.currency = o.currency;
@@ -124,6 +152,9 @@ export class Product{
                 this.manufactory = new Manufactory(o.manufactory);
             }
 
+            // if(o.style){
+            //     this.style = o.style;
+            // }
             this.created = o.created;
             this.updated = o.updated;
       }

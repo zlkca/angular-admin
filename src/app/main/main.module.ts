@@ -54,6 +54,7 @@ const adminRoutes:Routes = [
     SharedModule,
     RouterModule.forChild(adminRoutes)
   ],
+  //[CUSTOM_ELEMENTS_SCHEMA],
   declarations: [LayoutComponent, HomeComponent, ProductComponent, ManufactoryComponent]
 })
 export class MainModule { }

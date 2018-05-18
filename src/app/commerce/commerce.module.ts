@@ -1,10 +1,8 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
-
-//import { UiModule } from '../ui/ui.module';
-
+import { SharedModule } from '../shared/shared.module';
 
 import { SharedService } from '../shared/shared.service';
 import { CommerceService } from './commerce.service';
@@ -30,8 +28,9 @@ import { ColorFormComponent } from './color-form/color-form.component';
       ReactiveFormsModule,
       RouterModule,
       HttpClientModule,
-      //UiModule
+      SharedModule
    ],
+   schemas:[CUSTOM_ELEMENTS_SCHEMA],
    providers: [
      SharedService,
      CommerceService,

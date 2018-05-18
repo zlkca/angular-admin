@@ -4,13 +4,14 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { environment } from '../../environments/environment';
-import { Manufactory, Category, Product, Color, ImageDefaultTitle, QR, Subscription } from './commerce';
+import { Manufactory, Category, Product, Color, ImageDefaultTitle, Subscription } from './commerce';
 import 'rxjs/add/observable/fromPromise';
 
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 
 const APP = environment.APP;
 const API_URL = environment.API_URL;
+const EMPTY_IMAGE = environment.APP_URL + '/media/empty.png';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -359,15 +360,15 @@ export class CommerceService {
             formData.append('manufactory_id', d.manufactory.id);
             
             // formData.append('logo', d.logo);
-            // for(let i=0; i<d.qrs.length; i++){
-            //     formData.append('title'+i, d.qrs[i].title);
-            //     if(d.qrs[i].image.data == self.emptyImage){
-            //         formData.append('image_status'+i, 'clear');
-            //     }else{
-            //         formData.append('image_status'+i, 'unchange');
-            //     }
-            //     formData.append('image'+i, d.qrs[i].image.file);
-            // }
+            for(let i=0; i<d.pictures.length; i++){
+                formData.append('name'+i, d.pictures[i].name);
+                if(d.pictures[i].image.data == EMPTY_IMAGE){
+                    formData.append('image_status'+i, 'clear');
+                }else{
+                    formData.append('image_status'+i, 'unchange');
+                }
+                formData.append('image'+i, d.pictures[i].image.file);
+            }
             
 
             var xhr = new XMLHttpRequest();
