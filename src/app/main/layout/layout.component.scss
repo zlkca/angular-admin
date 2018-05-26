@@ -2,11 +2,11 @@ $border-color:#b0b0b0;
 
 .admin-layout{
     .left-side{
-        padding-top:100px;
+        padding:15px 15px 15px 40px;
         min-height:400px;
         border-right:1px solid $border-color;
         .menu-item{
-            padding:15px 10px;
+            padding:10px;
         }
     }
 

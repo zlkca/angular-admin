@@ -135,7 +135,9 @@ import { CommerceService } from '../commerce.service';
 export class ProductListComponent implements OnInit {
     productList:Product[] = [];
 
-    constructor(private sharedServ:SharedService, private commerceServ:CommerceService, private router:Router){ }
+    constructor(private sharedServ:SharedService, private commerceServ:CommerceService, private router:Router){
+
+    }
 
     ngOnInit() {
         let self = this;
@@ -150,7 +152,7 @@ export class ProductListComponent implements OnInit {
     }
 
     toPage(url:string){
-      this.router.navigate([url]);
+        this.router.navigate([url]);
     }
 
     change(r){

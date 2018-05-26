@@ -21,6 +21,9 @@ import { ProductListComponent } from './product-list/product-list.component';
 import { ProductDetailComponent } from './product-detail/product-detail.component';
 import { ColorListComponent } from './color-list/color-list.component';
 import { ColorFormComponent } from './color-form/color-form.component';
+import { PatternListComponent } from './pattern-list/pattern-list.component';
+import { PatternFormComponent } from './pattern-form/pattern-form.component';
+import { UnitFormComponent } from './unit-form/unit-form.component';
 
 @NgModule({
    imports:[
@@ -41,6 +44,6 @@ import { ColorFormComponent } from './color-form/color-form.component';
     }],
    exports:[CategoryListComponent,CategoryFormComponent,ProductListComponent,ProductDetailComponent],
    declarations:[CategoryListComponent,CategoryFormComponent, 
-   ManufactoryListComponent, ManufactoryFormComponent, ProductFormComponent,ProductListComponent,ProductDetailComponent, ColorListComponent, ColorFormComponent]
+   ManufactoryListComponent, ManufactoryFormComponent, ProductFormComponent,ProductListComponent,ProductDetailComponent, ColorListComponent, ColorFormComponent, PatternListComponent, PatternFormComponent, UnitFormComponent]
 })
 export class CommerceModule { }

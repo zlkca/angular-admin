@@ -249,12 +249,18 @@ body{
       padding:10px;
       .btn{
         width: 80px;
-        min-width: 80px ;
+        min-width: 80px;
         margin-left: 10px;
       }
     }
   }
 
+  .admin-form{
+    .btn{
+      width: 80px;
+      min-width: 80px;
+    }
+  }
 }// end of body
 
 

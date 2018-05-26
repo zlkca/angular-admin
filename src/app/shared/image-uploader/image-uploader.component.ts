@@ -2,11 +2,9 @@ import { Component, OnInit, Input } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { SharedService } from '../shared.service';
 
-const EMPTY_IMAGE = environment.APP_URL + '/media/empty.png';
+const ADD_IMAGE = environment.MEDIA_ROOT + 'add_photo.png';
 const FRAME_W = 180;
 const FRAME_H = 240;
-
-
 
 declare var $;
 
@@ -18,6 +16,8 @@ declare var $;
 export class ImageUploaderComponent implements OnInit {
 	@Input() data : any[];
 	_data:any;
+  currPic:any = {index:1, data:'', file:''};
+
 	MEDIA_ROOT = environment.MEDIA_ROOT;
 
 	// set data(d:any){
@@ -25,9 +25,18 @@ export class ImageUploaderComponent implements OnInit {
 	// }
   constructor(private sharedServ:SharedService) { }
 
-  ngOnInit() {
+  ngOnInit(){
+
+  }
+
+  ngOnChanges() {
   	let t = this.data;
   	let ret = this.sharedServ.resizeImage(FRAME_W,FRAME_H,100, 200);
+    if(!this.data || this.data.length == 0){
+      this.currPic = {index:0, data:ADD_IMAGE, file:''};
+    }else{
+      this.currPic = {index:this.data.length, data:ADD_IMAGE, file:''};
+    }
   }
 
   // ngOnInit() {
@@ -89,13 +98,21 @@ export class ImageUploaderComponent implements OnInit {
     //             self.router.navigate(["admin/wechatgroups"]);
     //         });
     // }
+    getImageSrc(image:any){
+      if(image.file){
+        return image.data;
+      }else{
+        return this.MEDIA_ROOT + image.data
+      }
+    }
+
     onLoadImage(i:number){
       $('[name="image'+ i +'"]').click();
     }
 
     onDeleteImage(i:number){
         let pic = this.data[i];
-        pic.image.data = EMPTY_IMAGE;
+        pic.image.data = '';
         pic.image.file = '';
         this.data[i] = pic;
     }
@@ -107,7 +124,12 @@ export class ImageUploaderComponent implements OnInit {
           let file = event.target.files[0];
           reader.readAsDataURL(file);
           reader.onload = () => {
-              self.data[i].image = {data: reader.result, file: event.target.files[0]};//.split(',')[1];
+              if(i>=self.data.length){
+                self.data.push({index:i, name:"", image:{data: reader.result, file: event.target.files[0]}});
+                self.currPic = {index:i+1, data:ADD_IMAGE, file:''};
+              }else{
+                self.data[i].image = {data: reader.result, file: event.target.files[0]};
+              }//.split(',')[1];
               //self.wechatgroup.logo = event.target.files[0];
           //   this.form.get('avatar').setValue({
           //     filename: file.name,

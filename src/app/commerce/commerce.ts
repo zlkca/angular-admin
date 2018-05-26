@@ -122,11 +122,7 @@ export class Product{
             if(o.pictures && o.pictures.length > 0){
               this.pictures = o.pictures;
             }else{
-              for(let i=0; i<MAX_N_PICTURES; i++){
-                let pic = new Picture();
-                pic.index = i;
-                this.pictures.push(pic);
-              }
+              this.pictures = [];
             }
 
             // this.pic = o.pic;
@@ -160,8 +156,27 @@ export class Product{
       }
   }
 }
+export class Pattern{
+  id:string;
+  name:string;
+  description:string;
+  area:number;
+  weight:number;
+  image:any = { 'data':'', 'file':'' };
+  product:any = {id:1};
 
-
+  constructor(o?:any){
+    this.id = o.id;
+    this.name = o.name;
+    this.description = o.description;
+    this.area = o.area;
+    this.weight = o.weight;
+    this.image = o.image;
+    if(o.product){
+        this.product = o.product;
+    }
+  }
+}
 
 export class Subscription{
   public user:any;

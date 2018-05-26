@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormArray, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormArray, FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { CommerceService } from '../commerce.service';
 import { Product, Category, Manufactory, Color, Picture } from '../commerce';
@@ -17,7 +17,7 @@ export class ProductFormComponent implements OnInit {
     manufactoryList:Manufactory[] = [];
     colorList:Color[] = [];
     id:string = '';
-    pictures:Picture[] = [ new Picture() ];
+    pictures:Picture[] = [];
 
     @ViewChild(ImageUploaderComponent)
     uploader:any;
@@ -60,12 +60,11 @@ export class ProductFormComponent implements OnInit {
         return this.form.get('color_id');
     }
 
-    constructor(private commerceServ:CommerceService, private route: ActivatedRoute, private router:Router, private fb:FormBuilder){}
+
+    constructor(private commerceServ:CommerceService, private route: ActivatedRoute, private router:Router){}
 
     ngOnInit() {
         let self = this;
-
-
 
         self.commerceServ.getManufactoryList().subscribe(r=>{
             self.manufactoryList = r;

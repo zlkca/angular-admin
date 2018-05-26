@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { environment } from '../../environments/environment';
-import { Manufactory, Category, Product, Color, ImageDefaultTitle, Subscription } from './commerce';
+import { Manufactory, Category, Product, Color, Pattern, ImageDefaultTitle, Subscription } from './commerce';
 import 'rxjs/add/observable/fromPromise';
 
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
@@ -27,7 +27,6 @@ export class TokenInterceptor implements HttpInterceptor {
     return next.handle(request);
   }
 }
-
 
 @Injectable()
 export class CommerceService {
@@ -59,7 +58,7 @@ export class CommerceService {
     }
 
     getManufactory(id:number):Observable<Manufactory>{
-        const url = API_URL + 'manufactory/' + id;
+        const url = API_URL + 'manufactories/' + id;
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
         return this.http.get(url, {'headers': headers}).map((res:any) => {
             return new Manufactory(res.data);
@@ -70,7 +69,7 @@ export class CommerceService {
     }
 
     saveManufactory(d:Manufactory):Observable<Manufactory>{
-        const url = API_URL + 'manufactory';
+        const url = API_URL + 'manufactories';
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
         let data = {
           'id': d.id? d.id:'',
@@ -86,7 +85,7 @@ export class CommerceService {
     }
 
     rmManufactory(id:number):Observable<Manufactory[]>{
-        const url = API_URL + 'manufactory/' + id;
+        const url = API_URL + 'manufactories/' + id;
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
         return this.http.delete(url, {'headers': headers}).map((res:any) => {
             let a:Manufactory[] = [];
@@ -122,7 +121,7 @@ export class CommerceService {
     }
 
     getCategory(id:number):Observable<Category>{
-        const url = this.API_URL + 'category/' + id;
+        const url = this.API_URL + 'categories/' + id;
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
         return this.http.get(url, {'headers': headers}).map((res:any) => {
             return new Category(res.data);
@@ -133,7 +132,7 @@ export class CommerceService {
     }
 
     saveCategory(d:Category):Observable<Category>{
-        const url = this.API_URL + 'category';
+        const url = this.API_URL + 'categories';
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
         let data = {
           'id': d.id? d.id:'',
@@ -150,7 +149,7 @@ export class CommerceService {
     }
 
     rmCategory(id:number):Observable<Category[]>{
-        const url = this.API_URL + 'category/' + id;
+        const url = this.API_URL + 'categories/' + id;
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
         return this.http.delete(url, {'headers': headers}).map((res:any) => {
             let a:Category[] = [];
@@ -186,7 +185,7 @@ export class CommerceService {
     }
 
     getColor(id:number):Observable<Color>{
-        const url = this.API_URL + 'color/' + id;
+        const url = this.API_URL + 'colors/' + id;
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
         return this.http.get(url, {'headers': headers}).map((res:any) => {
             return new Color(res.data);
@@ -197,7 +196,7 @@ export class CommerceService {
     }
 
     saveColor(d:Color):Observable<Color>{
-        const url = this.API_URL + 'color';
+        const url = this.API_URL + 'colors';
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
         let data = {
           'id': d.id? d.id:'',
@@ -214,7 +213,7 @@ export class CommerceService {
     }
 
     rmColor(id:number):Observable<Color[]>{
-        const url = this.API_URL + 'color/' + id;
+        const url = this.API_URL + 'colors/' + id;
         let headers = new HttpHeaders().set('Content-Type', 'application/json');
         return this.http.delete(url, {'headers': headers}).map((res:any) => {
             let a:Color[] = [];
@@ -359,17 +358,21 @@ export class CommerceService {
             formData.append('color_id', d.color.id);
             formData.append('manufactory_id', d.manufactory.id);
             
-            // formData.append('logo', d.logo);
+            formData.append('n_pictures', d.pictures.length?d.pictures.length.toString():'0');
             for(let i=0; i<d.pictures.length; i++){
                 formData.append('name'+i, d.pictures[i].name);
-                if(d.pictures[i].image.data == EMPTY_IMAGE){
-                    formData.append('image_status'+i, 'clear');
+                let image = d.pictures[i].image;
+                if(image.data == ''){
+                    formData.append('image_status'+i, 'removed');
                 }else{
-                    formData.append('image_status'+i, 'unchange');
+                    if(image.file == ''){
+                        formData.append('image_status'+i, 'unchange');
+                    }else{
+                        formData.append('image_status'+i, 'changed');
+                        formData.append('image'+i, image.file);
+                    }
                 }
-                formData.append('image'+i, d.pictures[i].image.file);
             }
-            
 
             var xhr = new XMLHttpRequest();
 
@@ -413,6 +416,70 @@ export class CommerceService {
             return Observable.throw(err.message || err);
         });
     }
+
+    getPatternList(query?:string):Observable<Pattern[]>{
+        const url = API_URL + 'patterns' + (query ? query:'');
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+        return this.http.get(url, {'headers': headers}).map((res:any) => {
+            let a:Pattern[] = [];
+            let d = res.data;
+            if( d && d.length > 0){
+                for(var i=0; i<d.length; i++){
+                    a.push(new Pattern(d[i]));
+                }
+            }
+            return a;
+        })
+        .catch((err) => {
+            return Observable.throw(err.message || err);
+        });
+    }
+
+    getPattern(id:number):Observable<Pattern>{
+        const url = API_URL + 'pattern/' + id;
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+        return this.http.get(url, {'headers': headers}).map((res:any) => {
+            return new Pattern(res.data);
+        })
+        .catch((err) => {
+            return Observable.throw(err.message || err);
+        });
+    }
+
+    savePattern(d:Pattern):Observable<Pattern>{
+        const url = API_URL + 'pattern';
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+        let data = {
+          'id': d.id? d.id:'',
+          'name': d.name,
+          'description': d.description
+        }
+        return this.http.post(url, data, {'headers': headers}).map((res:any) => {
+            return new Pattern(res.data);
+        })
+        .catch((err) => {
+            return Observable.throw(err.message || err);
+        });
+    }
+
+    rmPattern(id:number):Observable<Pattern[]>{
+        const url = API_URL + 'pattern/' + id;
+        let headers = new HttpHeaders().set('Content-Type', 'application/json');
+        return this.http.delete(url, {'headers': headers}).map((res:any) => {
+            let a:Pattern[] = [];
+            let d = res.data;
+            if( d && d.length > 0){
+                for(var i=0; i<d.length; i++){
+                    a.push(new Pattern(d[i]));
+                }
+            }
+            return a;
+        })
+        .catch((err) => {
+            return Observable.throw(err.message || err);
+        });
+    }
+
 
     // getWechat(id:number):Observable<Wechat>{
     //     const url = this.API_URL + 'wechat/1';
